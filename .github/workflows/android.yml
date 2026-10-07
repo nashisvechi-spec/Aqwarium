@@ -1,0 +1,63 @@
+name: Build Android APK
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: android-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: android-actions/setup-android@v3
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.11.1'
+      - name: Install Android SDK
+        run: sdkmanager 'platforms;android-35' 'build-tools;35.0.0'
+      - name: Build and validate
+        run: gradle --no-daemon --max-workers=2 assembleRelease lintRelease
+      - name: Verify APK signature
+        run: '"$ANDROID_HOME/build-tools/35.0.0/apksigner" verify --verbose app/build/outputs/apk/release/app-release.apk'
+      - name: Package APK and checksum
+        run: |
+          python3 - <<'PY'
+          import hashlib, json, pathlib, shutil
+          release = pathlib.Path('app/build/outputs/apk/release')
+          metadata = json.loads((release / 'output-metadata.json').read_text())
+          item = metadata['elements'][0]
+          output = pathlib.Path('artifacts')
+          output.mkdir(exist_ok=True)
+          apk = output / ('Aquarium-' + item['versionName'] + '.apk')
+          shutil.copy2(release / item['outputFile'], apk)
+          digest = hashlib.sha256(apk.read_bytes()).hexdigest()
+          (output / 'SHA256SUMS.txt').write_text(digest + '  ' + apk.name + '\n')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Aquarium-Android-APK
+          path: artifacts/
+          if-no-files-found: error
+          retention-days: 90
+      - name: Upload Android Lint report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: Aquarium-Android-Lint
+          path: app/build/reports/lint-results-release.*
+          if-no-files-found: ignore
+
