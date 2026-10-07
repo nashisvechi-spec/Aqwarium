@@ -1,0 +1,35 @@
+plugins { id 'com.android.application' }
+android {
+    namespace 'ru.quietwater.aquarium'
+    compileSdk 35
+    defaultConfig {
+        applicationId 'ru.quietwater.aquarium'
+        minSdk 26
+        targetSdk 35
+        versionCode 10000
+        versionName '1.0.0'
+    }
+    signingConfigs {
+        preview {
+            storeFile rootProject.file('keystores/aquarium-preview.jks')
+            storePassword 'android'
+            keyAlias 'aquarium-preview'
+            keyPassword 'android'
+        }
+    }
+    buildTypes {
+        debug { applicationIdSuffix '.debug'; versionNameSuffix '-debug' }
+        release {
+            signingConfig signingConfigs.preview
+            versionNameSuffix '-preview'
+            minifyEnabled false
+        }
+    }
+    sourceSets.main.assets.srcDirs = ['../web']
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+    buildFeatures { buildConfig true }
+}
+dependencies { implementation 'androidx.webkit:webkit:1.12.1' }

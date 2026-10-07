@@ -1,0 +1,17 @@
+Verifies
+Verified using v1 scheme (JAR signing): false
+Verified using v2 scheme (APK Signature Scheme v2): true
+Verified using v3 scheme (APK Signature Scheme v3): false
+Verified using v3.1 scheme (APK Signature Scheme v3.1): false
+Verified using v4 scheme (APK Signature Scheme v4): false
+Verified for SourceStamp: false
+Number of signers: 1
+Signer #1 certificate DN: CN=Quiet Water Preview, OU=Development, O=Quiet Water
+Signer #1 certificate SHA-256 digest: 9ed378a34f1bbdbec82b8238d5683cf433b00b287856f2dd6bfcb731c910ef86
+Signer #1 certificate SHA-1 digest: 4bd6bf38d321b86478509c5f1db57ad6b513e32e
+Signer #1 certificate MD5 digest: f8394dfeef3cc7232664b7618c7cedfc
+Signer #1 key algorithm: RSA
+Signer #1 key size (bits): 2048
+Signer #1 public key SHA-256 digest: c4b097c125ebc49ee81ec12d8ccfc7c1ece61eef3734e7b59e9ebe14f20a32ec
+Signer #1 public key SHA-1 digest: 9833c287e7e8a339cbb8aa037f061ff734457759
+Signer #1 public key MD5 digest: 87ac803b35f0c5ce0f82d66598563764

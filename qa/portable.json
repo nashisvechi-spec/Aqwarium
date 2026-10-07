@@ -1,0 +1,14 @@
+{
+  "passed": 7,
+  "checks": [
+    "Standalone HTML starts from a local file",
+    "Standalone HTML includes all 9 inhabitants",
+    "Standalone HTML includes all 28 embedded images",
+    "Standalone save and restore preserves a betta color",
+    "Standalone export needs no external assets",
+    "Standalone menu opens and closes",
+    "Standalone preview has no external requests or runtime errors"
+  ],
+  "errors": [],
+  "external": []
+}
