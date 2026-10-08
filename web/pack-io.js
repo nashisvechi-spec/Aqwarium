@@ -1,12 +1,16 @@
 'use strict';
-function bestCheckpoint(){
- const local=localStorage.getItem('quiet-water-v2');
+function checkpointCandidates(){
+ let local='';try{local=localStorage.getItem('quiet-water-v2')||''}catch(e){}
  let native='';try{native=window.AquariumAndroid?.getCheckpoint()||''}catch(e){}
- const parse=s=>{try{const o=JSON.parse(s);return o.format==='quiet-water-aquarium'?o:null}catch(e){return null}};
- const a=parse(local),b=parse(native);
- if(!a)return b?native:null;if(!b)return local;
- return (b.life?.updatedAt??0)>(a.life?.updatedAt??0)?native:local;
+ const candidates=[];
+ for(const text of new Set([local,native])){
+  try{const data=JSON.parse(text);if(data?.format==='quiet-water-aquarium'){
+   const time=data.life?.updatedAt;candidates.push({text,time:typeof time==='number'&&Number.isFinite(time)?time:0});
+  }}catch(e){}
+ }
+ return candidates.sort((a,b)=>b.time-a.time).map(c=>c.text);
 }
+function bestCheckpoint(){return checkpointCandidates()[0]??null}
 async function portableData(data){
  const result=JSON.parse(JSON.stringify(data));
  const cache=new Map();

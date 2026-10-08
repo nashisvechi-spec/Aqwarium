@@ -9,7 +9,7 @@ const pass=(name,result)=>{assert.ok(result,name);checks.push(name)};
 let browser;
 (async()=>{
  browser=await chromium.launch({headless:true,...(process.env.CHROMIUM_PATH?{executablePath:process.env.CHROMIUM_PATH}:{}),args:['--no-sandbox']});
- const page=await browser.newPage({viewport:{width:412,height:915}});
+ const page=await browser.newPage({viewport:{width:915,height:412}});
  const errors=[],external=[];
  page.on('pageerror',e=>errors.push(e.message));
  page.on('request',r=>{if(/^https?:/.test(r.url()))external.push(r.url())});

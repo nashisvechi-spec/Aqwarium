@@ -19,7 +19,7 @@ let browser;
 (async()=>{
  await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));
  browser=await chromium.launch({headless:true,...(process.env.CHROMIUM_PATH?{executablePath:process.env.CHROMIUM_PATH}:{}),args:['--no-sandbox']});
- const page=await browser.newPage({viewport:{width:412,height:915},deviceScaleFactor:1});
+ const page=await browser.newPage({viewport:{width:915,height:412},deviceScaleFactor:1});
  const errors=[];page.on('pageerror',e=>errors.push(e.message));
  page.on('response',r=>{if(r.status()>=400)errors.push(r.url()+': '+r.status())});
  await page.goto('http://127.0.0.1:'+server.address().port);await page.waitForFunction(()=>typeof loaded!=='undefined'&&loaded);
@@ -36,8 +36,8 @@ let browser;
  pass('All 28 packaged images decode',graphics.length===28&&graphics.every(x=>x.ok));
  await page.evaluate(()=>{stopAnimation();paused=true;state.lightCycle='manual';state.night=false;invalidateRender();draw()});
  fs.mkdirSync(path.join(root,'screenshots'),{recursive:true});
- await page.screenshot({path:path.join(root,'screenshots/portrait.png')});
- await page.click('#menuButton');await page.screenshot({path:path.join(root,'screenshots/menu-portrait.png')});
+ await page.screenshot({path:path.join(root,'screenshots/landscape-small.png')});
+ await page.click('#menuButton');await page.screenshot({path:path.join(root,'screenshots/menu-landscape.png')});
  await page.evaluate(()=>openPage('fish'));
  pass('Fish catalog shows 9 species',await page.locator('#catalog .item').count()===9);
  await page.getByRole('button',{name:/Гуппи.*Мирная/}).click();
@@ -60,7 +60,7 @@ let browser;
  await page.reload();await page.waitForFunction(()=>loaded);
  pass('Reload restores 9 inhabitants and chosen colors',await page.evaluate(()=>state.fish.length===9&&state.fish.at(-1).colorVariant==='red_blue'));
  await page.evaluate(()=>{stopAnimation();paused=true});
- for(const viewport of [{width:320,height:568},{width:412,height:915},{width:915,height:412},{width:1280,height:720}]){
+ for(const viewport of [{width:568,height:320},{width:740,height:360},{width:915,height:412},{width:1280,height:720}]){
   await page.setViewportSize(viewport);
   for(const section of ['menu','fish','decor','bg','lighting','food','packs','settings','absence']){
    await page.evaluate(s=>openPage(s),section);

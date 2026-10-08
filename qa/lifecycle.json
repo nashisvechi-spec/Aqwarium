@@ -1,0 +1,23 @@
+{
+  "passed": 17,
+  "checks": [
+    "Live frame loop advances time and moves fish",
+    "Temporary zero width keeps all fish coordinates finite",
+    "Temporary zero height keeps all fish coordinates finite",
+    "Temporary zero both keeps all fish coordinates finite",
+    "Native suspend prevents restart by restoration and display changes",
+    "Resume catches up once and restarts the frame loop",
+    "Explicit user pause remains paused after resume",
+    "Native checkpoint still saves when browser quota is exhausted",
+    "Browser checkpoint remains available without the native bridge",
+    "Startup restores native checkpoint when browser reads are blocked",
+    "Invalid newer native scene falls back to a valid browser checkpoint",
+    "Older damaged checkpoint recovers fish identity, color and hunger",
+    "Recovered fish resumes swimming",
+    "Malformed imported coordinates remain rejected",
+    "Portrait displays rotation notice and hides app controls",
+    "Landscape restores usable menu controls",
+    "No runtime errors during lifecycle and storage regressions"
+  ],
+  "errors": []
+}

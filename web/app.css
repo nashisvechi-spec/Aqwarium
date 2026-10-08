@@ -163,6 +163,13 @@ details p,details li{font-size:12px;color:var(--muted);line-height:1.7}
 details ul{padding-left:18px}
 [hidden]{display:none!important}
 .loading-note{position:fixed;left:50%;top:40%;transform:translate(-50%,-50%);color:#d8f0e4;font:500 24px/1.6 system-ui,sans-serif;text-align:center;z-index:1;pointer-events:none}
+#orientationNotice{display:none}
+@media(orientation:portrait){
+ #orientationNotice{position:fixed;inset:0;z-index:30;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:28px;text-align:center;background:var(--bg);color:var(--text)}
+ #orientationNotice b{font-size:23px;font-weight:600}
+ #orientationNotice span{max-width:280px;color:var(--muted)}
+ #menuButton,dialog[open],#editor,#toast{visibility:hidden}
+}
 @media(hover:hover){button:hover:not(:disabled){background:rgba(154,226,206,.11);border-color:rgba(165,232,213,.29)}.primary:hover:not(:disabled){background:linear-gradient(180deg,#1acbd4,#00aeba);border-color:#78e2df}.item:hover{border-color:rgba(131,223,207,.34)}.item.active:hover{border-color:var(--accent)}#menuButton:hover{background:rgba(31,58,56,.94)}}
 @media(min-width:701px){.control-bar{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px 12px}.control-bar p{grid-column:1/-1;margin:0}}
 @media(max-width:700px){dialog,dialog[data-page=menu],dialog[data-page=stats],dialog[data-page=food],#risk{inset:auto 10px max(10px,env(safe-area-inset-bottom)) 10px;width:auto;max-width:600px;margin:0 auto;max-height:86dvh;border-radius:21px 21px 17px 17px}.sheet-head{padding:15px 16px 13px;gap:10px}.sheet-head h2{font-size:21px}.sheet-body{padding:18px 16px}.menu-card{padding:12px;min-height:108px;gap:8px}.menu-card>.ui-icon{width:24px;height:24px}.menu-card b{font-size:14px}.menu-grid{gap:9px}.menu-summary{margin-bottom:16px}.field-grid{gap:17px 14px}.catalog{gap:9px}.catalog-actions{display:grid;grid-template-columns:minmax(0,1fr) 44px 44px;gap:8px}.catalog-actions #editExisting{grid-column:1/-1}.catalog-actions #backgrounds{justify-content:flex-start}.item-info{padding:10px 10px 12px}.item b{font-size:13px}.item small{font-size:11px}.food{gap:8px}.food button{padding:17px 7px 14px}.food b{font-size:12px}.food small{font-size:10px}.fish-top{gap:12px;padding:10px}.fish-top canvas{width:105px}.fish-top strong{font-size:20px}.stats{gap:16px 14px}.control-bar{padding:11px 12px}.editor-actions{margin-top:8px}.editor-actions button{flex:1;min-width:0;padding:9px 7px}.editor-heading b{font-size:13px}#menuButton{width:52px;height:52px}}

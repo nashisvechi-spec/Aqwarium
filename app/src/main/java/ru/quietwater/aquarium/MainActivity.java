@@ -71,7 +71,10 @@ public final class MainActivity extends Activity {
             @Override public boolean shouldOverrideUrlLoading(WebView v, WebResourceRequest request) {
                 return true;
             }
-            @Override public void onPageFinished(WebView v, String url) { immersive(); }
+            @Override public void onPageFinished(WebView v, String url) {
+                if (v == web) syncLifecycle();
+                immersive();
+            }
         });
         web.setWebChromeClient(new WebChromeClient() {
             @Override public boolean onShowFileChooser(WebView view, ValueCallback<Uri[]> callback,
@@ -194,17 +197,27 @@ public final class MainActivity extends Activity {
         }
     }
     @Override public void onWindowFocusChanged(boolean focus) { super.onWindowFocusChanged(focus); if (focus) immersive(); }
+    private void syncLifecycle() {
+        final WebView current = web;
+        if (current == null) return;
+        if (resumed) {
+            current.onResume();
+            current.evaluateJavascript("window.AquariumLifecycle && AquariumLifecycle.resume()", null);
+        } else {
+            current.evaluateJavascript("window.AquariumLifecycle && AquariumLifecycle.suspend()", value -> {
+                if (web == current && !resumed) current.onPause();
+            });
+        }
+    }
     @Override protected void onPause() {
         resumed = false;
-        if (web != null) web.evaluateJavascript("window.AquariumLifecycle && AquariumLifecycle.suspend()", value -> {
-            if (web != null && !resumed) web.onPause();
-        });
+        syncLifecycle();
         super.onPause();
     }
     @Override protected void onResume() {
         super.onResume();
         resumed = true;
-        if (web != null) { web.onResume(); web.evaluateJavascript("window.AquariumLifecycle && AquariumLifecycle.resume()", null); }
+        syncLifecycle();
         immersive();
     }
     @Override public void onBackPressed() { handleBack(); }
